@@ -45,7 +45,7 @@ function isDivByThree(num){
 console.log(filterWithCallback(numbers, isDivByThree));
 
 
-// isEven and isDivByThree are considered callback functions
+// isEven and isDivByThree are considered callback functions (because they are functions passed into another function as an arg)
 // filterWithCallback is considered a higher-order function (because it accepts func as arg)
 
 
@@ -101,15 +101,107 @@ function playSong(song){
 
 
 // Fix Async issue with callbacks
-function downloadSong(songName, callback){
+function downloadSong(songName, downloadTime, callback){
     console.log(`Downloading ${songName}...`)
     setTimeout(() => {
+        // Script to download the song
         console.log('Finished downloading')
+        // Execute callback function once finished downloading
         callback(songName)
+    }, downloadTime)
+}
+
+
+// downloadSong('Let It Be', 5000, playSong);
+
+
+// downloadSong('YMCA', 3000, (s) => console.log(`Sending ${s} to friend`))
+
+let song1 = 'Wonderwall';
+let song2 = 'Brown Eyed Girl';
+let song3 = 'Dreams';
+
+
+// downloadSong(song1, 3000, (s) => {
+//     console.log(`Saving ${s} to playlist`)
+//     downloadSong(song2, 2000, (s) => {
+//         console.log(`Saving ${s} to playlist`)
+//         downloadSong(song3, 4000, (s) => {
+//             console.log(`Sending ${s} to a friend`)
+//         })
+//     })
+// })
+
+
+
+/*
+    Though Callbacks give us more functionality...they also introduce
+    their own problem: Callback Hell
+
+    Something that looks like this:
+    function1( () => {
+        function2( () => {
+            function3( () => {
+                function4( () => {
+                    // Maybe do something here... 🤷
+                })
+            })
+        })
+    })
+*/
+
+
+// Handling Errors
+
+
+function downloadSong2(songName, callbackSucces, callbackFail){
+    console.log(`Searching for ${songName} in our database...`)
+    setTimeout(() =>{
+        // Simulate a valid song choice
+        if (songName.length > 4){
+            callbackSucces(songName)
+        } else {
+            callbackFail(songName)
+        }
     }, 3000)
 }
 
 
-downloadSong('Let It Be', playSong);
+// downloadSong2(
+//     'ABC',
+//     (s) => {console.log(`${s} has succesfully downloaded and is now playing`)},
+//     (s) => {console.error(`${s} is not a valid song choice`)}
+// )
 
 
+// In-class Exercise
+// Create a map function that takes in an array and a callback function and returns a new array with that function applied
+
+
+
+myArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+function myMap(arr, fn){
+    let newArray = [];
+    for (let el of arr){
+        newArray.push(fn(el))
+    }
+    return newArray
+}
+
+console.log(myMap(myArr, (x) => x**2))
+console.log(myMap(myArr, (x) => x + 2))
+console.log(myMap(myArr, (x) => (2**x)))
+
+function doStuff(num){
+    let x = 2 ** num;
+    if (x > 100){
+        x *= 3
+        return x /2
+    } else {
+        return -1*x
+    }
+}
+
+
+console.log(myMap(myArr, doStuff))
