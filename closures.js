@@ -204,16 +204,17 @@ console.log(stepByFive());
 // In Class Exercise
 // Create an IIFE that has a hidden array of names (starts as an empty array) but will add users to the list every time the function is called
 
-const addName = (function(){
-    let names = []
-    return (name) => {
+const addName = (function(names){
+    function inner(name){
         names.push(name)
         console.log(names)
     }
-})()
+    return inner
+})(['Bobbert', 'Robert', 'Flobbert'])
 
 
+console.log(addName);
 addName('Brian')
 addName('Tatyana')
 addName('Ripal')
-
+addName('Sam')
