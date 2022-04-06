@@ -29,8 +29,30 @@ def play_song(song):
     print(f"{song['title']} by {song['artist']} is playing")
 
 
-request = input('What song would you like to hear? ').title()
-song = download_song(request)
-play_song(song)
+# request = input('What song would you like to hear? ').title()
+# song = download_song(request)
+# play_song(song)
 
 
+def get_user(user_id):
+    time.sleep(1)
+    return {'id': user_id, 'username': 'johnqsample'}
+
+def get_user_orders(user):
+    time.sleep(2)
+    return [{'name': 'A', 'price': 1}, {'name': 'B', 'price': 2}, {'name': 'C', 'price': 3}]
+
+def get_order_total(order):
+    time.sleep(3)
+    return sum([p['price'] for p in order])
+
+
+def get_user_total_from_id(user_id):
+    user = get_user(user_id)
+    order = get_user_orders(user)
+    total = get_order_total(order)
+    print(f"Your total is ${total}")
+
+
+
+get_user_total_from_id(123)
